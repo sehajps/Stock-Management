@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="content-section" >
+    <div class="content-section">
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset >
+                <legend class="border-bottom mb-4">Input Data</legend>
+                <div class="form-row"> 
+                    <div class="form-group">
+                        {{ form.size.label(class="form-control-label") }}
+                        {% if form.size.errors %}
+                            {{ form.size(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.size.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.size(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    
+                    <div class="form-group">
+                        {{ form.description.label(class="form-control-label") }}
+                        {% if form.description.errors %}
+                            {{ form.description(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.description.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.description(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                    <div class="form-group">
+                        {{ form.sender.label(class="form-control-label") }}
+                        {% if form.sender.errors %}
+                            {{ form.sender(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.sender.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.sender(class="form-control form-control-lg") }}
+                        {% endif %}
+                    </div>
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+    </div>
+    <div class="table-responsive text-nowrap">
+        <legend class="border-bottom mb-4">Search Results</legend>
+        <table class="table table-hover">
+            <thead>
+                {%if entry%}
+                <tr>
+                    <th scope="col">Place</th>
+                    <th scope="col">Cell No</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Sender</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Action</th>
+                </tr>
+                {%else%}
+                {%endif%}
+            </thead>
+            <tbody>
+                {%for i in entry%}
+                    <tr>
+                        <td>{{i.place}}</td>
+                        <td>{{i.cell_no}}</td>
+                        <td>{{i.size}}</td>
+                        <td>{{i.quantity}}</td>
+                        <td>{{i.description}}</td>
+                        <td>{{i.sender}}</td>
+                        <td>{{i.time.strftime("%d-%m-%Y")}}</td>
+                        <td>{{i.time.strftime("%I:%M %p")}}</td>
+                        <td><a href="/update/{{i.id}}">Update</a></td>
+                        {%if current_user.username=='admin'%}
+                        <td><a href="/edit/{{i.id}}">Edit</a></td>
+                        {%endif%}
+                    </tr>
+                {%endfor%}
+            </tbody>
+          </table>
+    </div>
+</div>
+{% endblock content %}

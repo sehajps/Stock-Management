@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="content-section" >
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+            <legend class="border-bottom mb-4">Input Cell</legend>
+            <div class="form-group">
+                {{ form.place.label(class="form-control-label") }}
+                {% if form.place.errors %}
+                    {{ form.place(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.place.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.place(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.cell_no.label(class="form-control-label") }}
+                {% if form.cell_no.errors %}
+                    {{ form.cell_no(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.cell_no.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.cell_no(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+    </form>
+    <div class="table-responsive text-nowrap">
+        <table class="table table-hover">
+            <thead>
+                {%if entries%}
+                <tr>
+                    <th scope="col">Place</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Sender</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Action</th>
+                </tr>
+                {%else%}
+                {%endif%}
+            </thead>
+            <tbody>
+                {%for i in entries%}
+                    <tr>
+                        <td>{{i.place}}</td>
+                        <td>{{i.n_b}}</td>
+                        <td>{{i.size}}</td>
+                        <td>{{i.quantity}}</td>
+                        <td>{{i.description}}</td>
+                        <td>{{i.sender}}</td>
+                        <td>{{i.time.strftime("%d-%m-%Y")}}</td>
+                        <td>{{i.time.strftime("%I:%M %p")}}</td>
+                        <td><a href="/update/{{i.id}}">Update</a></td>
+                        {%if current_user.username=='admin'%}
+                        <td><a href="/edit/{{i.id}}">Edit</a></td>
+                        {%endif%}
+                    </tr>
+                {%endfor%}
+            </tbody>
+          </table>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+{% endblock content %}
