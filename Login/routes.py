@@ -15,6 +15,7 @@ def home():
 
 @app.route('/register',methods=['GET','POST'])
 def register():
+    #return 'Fuck Off'
     form=RegisterForm()
     if form.validate_on_submit():
         hp=bcrypt.generate_password_hash(form.password.data).decode('utf-8')
