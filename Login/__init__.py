@@ -1,4 +1,5 @@
-import os
+import os,click
+from flask.cli import with_appcontext
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
@@ -22,3 +23,8 @@ app.config['MAIL_USERNAME']=os.environ.get('EMAIL_USER')
 app.config['MAIL_PASSWORD']=os.environ.get('EMAIL_PASS')
 mail=Mail(app)
 from Login import routes
+
+@click.command(name='create_tables')
+@with_appcontext
+def create_tables():
+    db.create_all()
