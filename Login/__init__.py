@@ -8,7 +8,7 @@ from flask_admin.contrib.sqla import ModelView
 from flask_mail import Mail
 app =Flask(__name__)
 app.config['SECRET_KEY']='cc2a9fc6576e7419f2ff483f62325071'
-app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///test.db'
+app.config['SQLALCHEMY_DATABASE_URL']=os.environ.get('DATABASE_URL')
 app.config['WHOOSH_BASE']='whoosh'
 db=SQLAlchemy(app)
 bcrypt=Bcrypt()
