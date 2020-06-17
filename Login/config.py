@@ -1,7 +1,7 @@
 import os
 class Config:
     SECRET_KEY=os.urandom(32)
-    SQLALCHEMY_DATABASE_URI='mysql://sql12349216:G3bCkSkCQ9@sql12.freemysqlhosting.net/sql12349216'
+    SQLALCHEMY_DATABASE_URI=os.environ.get('DATABASE_URL')
     WHOOSH_BASE='whoosh'
     MAIL_SERVER='smtp.googlemail.com'
     MAIL_PORT=587
