@@ -1,1 +1,2 @@
-from Login import app
+from Login import create_app
+app=create_app()
