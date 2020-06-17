@@ -26,19 +26,19 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
-              <a class="nav-item nav-link" href="{{url_for('home')}}">About</a>
-              <a class="nav-item nav-link" href="{{url_for('register')}}">Register</a>
+              <a class="nav-item nav-link" href="{{url_for('main.home')}}">About</a>
+              <a class="nav-item nav-link" href="{{url_for('users.register')}}">Register</a>
               {%if current_user.is_authenticated%}
-              <a class="nav-item nav-link" href="{{url_for('index')}}">Index</a>
+              <a class="nav-item nav-link" href="{{url_for('users.index')}}">Index</a>
               {%endif%}
             </div>
             <!-- Navbar Right Side -->
             
             <div class="navbar-nav">
               {% if current_user.is_authenticated %}
-              <a class="nav-item nav-link" href="{{url_for('logout')}}">Logout</a>
+              <a class="nav-item nav-link" href="{{url_for('users.logout')}}">Logout</a>
               {% else %}
-              <a class="nav-item nav-link" href="{{url_for('login')}}">Login</a>
+              <a class="nav-item nav-link" href="{{url_for('users.login')}}">Login</a>
               {%endif%}
             </div>
           </div>
@@ -64,8 +64,8 @@
           <div class="row">
             <div class="" >
               <picture>
-                <img src="Login/static/office_map.jpg">
-                <img src="Login/static/godown_map2.jpg">
+                <img src="{{ url_for('static', filename='office_map.jpg') }}">
+                <img src="{{ url_for('static', filename='godown_map2.jpg') }}">
               </picture>
             </div>
           </div>

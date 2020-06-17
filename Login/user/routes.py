@@ -1,31 +1,20 @@
-from flask import render_template,url_for,flash,redirect,request
-from Login import app,db,bcrypt,mail
+from flask import render_template,url_for,flash,redirect,request,Blueprint
+from Login import db,bcrypt
 from Login.models import user,inventory,outgoing
-from Login.form import (LoginForm,inputForm,searchCellForm,updateForm,searchsizeForm,sortedlistForm,
+from Login.user.form import (LoginForm,inputForm,searchCellForm,updateForm,searchsizeForm,sortedlistForm,
                         requestResetForm,restPasswordForm,searchRecentForm,searchLogForm,editLogForm,RegisterForm)
 from flask_login import login_user,current_user,logout_user,login_required
+from Login.user.utils import send_reset_email
 from datetime import datetime
 import pytz
 from sqlalchemy import desc,func
 from flask_mail import Message
 from numpy.core.defchararray import upper
-@app.route('/')
-def home():
-    return render_template('home.html')
 
-@app.route('/register',methods=['GET','POST'])
-def register():
-    #return 'Fuck Off'
-    form=RegisterForm()
-    if form.validate_on_submit():
-        hp=bcrypt.generate_password_hash(form.password.data).decode('utf-8')
-        temp=user(username=form.username.data,email=form.email.data,password=hp)
-        db.session.add(temp)
-        db.session.commit()
-        flash(f'User has been registered','success')
-        return redirect(url_for('login'))
-    return render_template('register.html',form=form,title='Register')
-@app.route('/index',methods=['GET','POST'])
+
+users=Blueprint('users',__name__)
+
+@users.route('/index',methods=['GET','POST'])
 @login_required
 def index():
     form=inputForm()
@@ -36,26 +25,76 @@ def index():
         db.session.add(data)
         db.session.commit()
         flash(f'Data Submitted','success')
-        return redirect(url_for('index'))
+        return redirect(url_for('users.index'))
 
     return render_template('index.html',form=form,title='Enter Data')
 
-@app.route('/login',methods=['GET','POST'])
+@users.route('/register',methods=['GET','POST'])
+def register():
+    #return 'Fuck Off'
+    form=RegisterForm()
+    if form.validate_on_submit():
+        hp=bcrypt.generate_password_hash(form.password.data).decode('utf-8')
+        temp=user(username=form.username.data,email=form.email.data,password=hp)
+        db.session.add(temp)
+        db.session.commit()
+        flash(f'User has been registered','success')
+        return redirect(url_for('users.login'))
+    return render_template('register.html',form=form,title='Register')
+
+@users.route('/login',methods=['GET','POST'])
 def login():
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('users.index'))
     form=LoginForm()
     if form.validate_on_submit():
         user1=user.query.filter_by(username=form.username.data).first()
         if user1 and bcrypt.check_password_hash(user1.password,form.password.data):
             login_user(user1,remember=form.remember.data)
             flash(f'Logged in','success')
-            return redirect(url_for('index'))
+            return redirect(url_for('users.index'))
         else:
             flash('Login Unsuccessful. Please check username and password!','danger')
     return render_template('login.html',form=form,title='Login')
 
-@app.route('/searchcell',methods=['GET','POST'])
+
+@users.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('main.home'))
+
+
+@users.route("/reset_password",methods=['GET','POST'])
+def reset_request():
+    if current_user.is_authenticated:
+        return redirect(url_for('users.home'))
+    form=requestResetForm()
+    if form.validate_on_submit():
+        user2=user.query.filter_by(username=form.username.data).first()
+        send_reset_email(user2)
+        flash('An email has been sent with instructions to reset password','info')
+        return redirect(url_for('users.login'))
+    return render_template('reset_request.html',title='Reset Password',form=form)
+    
+@users.route("/reset_token/<token>",methods=['GET','POST'])
+def reset_token(token):
+    if current_user.is_authenticated:
+        return redirect(url_for('users.home'))
+    user2=user.verify_reset_token(token)
+    if user2 is None:
+        flash(f'That is an invalid or expired token','warning')
+        return redirect(url_for('users.reset_request'))
+    form=restPasswordForm()
+    if form.validate_on_submit():
+            hp=bcrypt.generate_password_hash(form.password.data)
+            user2.password=hp
+            db.session.commit()
+            flash(f'You password has been updated','success')
+            return redirect(url_for('users.login'))
+    return render_template('reset_token.html',title='Reset Password',form=form)
+
+
+@users.route('/searchcell',methods=['GET','POST'])
 @login_required
 def searchcell():
     form=searchCellForm()
@@ -65,7 +104,7 @@ def searchcell():
         return render_template('searchcell.html',entries=entries,form=form)
     return render_template('searchcell.html',form=form,title='Search Cell')
 
-@app.route('/update/<int:id>',methods=['GET','POST'])
+@users.route('/update/<int:id>',methods=['GET','POST'])
 @login_required
 def update(id):
     if current_user.username!='admin':
@@ -85,10 +124,10 @@ def update(id):
         db.session.add(temp2)
         db.session.commit()
         flash(f'Entry Updated','success')
-        return redirect(url_for('index'))
+        return redirect(url_for('users.index'))
     return render_template('update.html',title='Update',form=form)
 
-@app.route('/edit/<int:id>',methods=['GET','POST'])
+@users.route('/edit/<int:id>',methods=['GET','POST'])
 @login_required
 def edit(id):
     if current_user.username!='admin':
@@ -108,7 +147,7 @@ def edit(id):
             db.session.delete(temp)
         db.session.commit()
         flash(f'Data has been edited successfully','success')
-        return redirect(url_for('index'))
+        return redirect(url_for('users.index'))
     elif request.method=='GET':     
         form.cell_no.data=temp.cell_no
         form.place.data=temp.place
@@ -122,7 +161,7 @@ def edit(id):
     else:
         return 'You are not admin'
 
-@app.route('/editlog/<int:id>',methods=['GET','POST'])
+@users.route('/editlog/<int:id>',methods=['GET','POST'])
 @login_required
 def editlog(id):
     if current_user.username!='admin':
@@ -142,7 +181,7 @@ def editlog(id):
             db.session.delete(temp)
         db.session.commit()
         flash(f'Log has been edited successfully','success')
-        return redirect(url_for('index'))
+        return redirect(url_for('users.index'))
     elif request.method=='GET':     
         form.cell_no.data=temp.cell_no
         form.place.data=temp.place
@@ -156,7 +195,7 @@ def editlog(id):
     else:
         return 'You are not admin'
 
-@app.route('/viewlog',methods=['GET','POST'])
+@users.route('/viewlog',methods=['GET','POST'])
 @login_required
 def viewlog():
     if current_user.username!='admin':
@@ -170,7 +209,7 @@ def viewlog():
     else:
         return 'You are not admin'
 
-@app.route('/viewrecent',methods=['GET','POST'])
+@users.route('/viewrecent',methods=['GET','POST'])
 @login_required
 def viewrecent():
     if current_user.username!='admin':
@@ -184,7 +223,7 @@ def viewrecent():
     else:
         return 'You are not admin'
 
-@app.route('/searchsize',methods=['GET','POST'])
+@users.route('/searchsize',methods=['GET','POST'])
 @login_required
 def searchsize():
     form=searchsizeForm()
@@ -216,7 +255,7 @@ def searchsize():
         return render_template('searchsize.html',entry=entry,title='Search Size',form=form)
     return render_template('searchsize.html',form=form,title='Search Size')
 
-@app.route('/sortedlist',methods=['GET','POST'])
+@users.route('/sortedlist',methods=['GET','POST'])
 @login_required
 def sortedlist():
     if current_user.username!='admin':
@@ -232,46 +271,4 @@ def sortedlist():
 
     return render_template('sortedlist.html',form=form,total=total)
 
-@app.route('/logout')
-def logout():
-    logout_user()
-    return redirect(url_for('home'))
 
-def send_reset_email(user2):
-    token=user2.get_reset_token()
-    msg=Message('Password Reset Request',sender='norepy_bs@demo.com',recipients=[user2.email])
-    msg.body=f'''To reset your password, visit the following link:
-{url_for('reset_token',token=token,_external=True)}
-
-If you did not make this request then simply ignore and no changes will be made
-'''
-
-    mail.send(msg)
-@app.route("/reset_password",methods=['GET','POST'])
-def reset_request():
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
-    form=requestResetForm()
-    if form.validate_on_submit():
-        user2=user.query.filter_by(username=form.username.data).first()
-        send_reset_email(user2)
-        flash('An email has been sent with instructions to reset password','info')
-        return redirect(url_for('login'))
-    return render_template('reset_request.html',title='Reset Password',form=form)
-    
-@app.route("/reset_token/<token>",methods=['GET','POST'])
-def reset_token(token):
-    if current_user.is_authenticated:
-        return redirect(url_for('home'))
-    user2=user.verify_reset_token(token)
-    if user2 is None:
-        flash(f'That is an invalid or expired token','warning')
-        return redirect(url_for('reset_request'))
-    form=restPasswordForm()
-    if form.validate_on_submit():
-            hp=bcrypt.generate_password_hash(form.password.data)
-            user2.password=hp
-            db.session.commit()
-            flash(f'You password has been updated','success')
-            return redirect(url_for('login'))
-    return render_template('reset_token.html',title='Reset Password',form=form)
