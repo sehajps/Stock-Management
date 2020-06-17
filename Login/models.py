@@ -4,9 +4,6 @@ from flask import current_app
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
 import pytz
-@login_manager.user_loader
-def load_user(user_id):
-    return user.query.get(int(user_id))
 
 class user(db.Model,UserMixin):
     id=db.Column(db.Integer,primary_key=True)

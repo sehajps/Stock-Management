@@ -30,7 +30,7 @@ def create_app(config_class=Config):
     @login_manager.user_loader
     def load_user(user_id):
         return user.query.get(int(user_id))
-    from Login.user.routes import users
+    from Login.users.routes import users
     from Login.main.routes import main
     app.register_blueprint(users)
     app.register_blueprint(main)

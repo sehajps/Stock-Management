@@ -1,10 +1,10 @@
 from flask import render_template,url_for,flash,redirect,request,Blueprint
 from Login import db,bcrypt
 from Login.models import user,inventory,outgoing
-from Login.user.form import (LoginForm,inputForm,searchCellForm,updateForm,searchsizeForm,sortedlistForm,
+from Login.users.form import (LoginForm,inputForm,searchCellForm,updateForm,searchsizeForm,sortedlistForm,
                         requestResetForm,restPasswordForm,searchRecentForm,searchLogForm,editLogForm,RegisterForm)
 from flask_login import login_user,current_user,logout_user,login_required
-from Login.user.utils import send_reset_email
+from Login.users.utils import send_reset_email
 from datetime import datetime
 import pytz
 from sqlalchemy import desc,func
