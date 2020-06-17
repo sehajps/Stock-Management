@@ -6,7 +6,7 @@ from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_mail import Mail
 from Login.config import Config
-
+from Login.commands import create_tables
 #mysql://sql12349216:G3bCkSkCQ9@sql12.freemysqlhosting.net/sql12349216
 
 db=SQLAlchemy()
@@ -32,4 +32,5 @@ def create_app(config_class=Config):
     app.register_blueprint(users)
     app.register_blueprint(main)
 
+    app.cli.add_command(create_tables)
     return app
