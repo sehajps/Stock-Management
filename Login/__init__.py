@@ -7,11 +7,12 @@ from flask_admin.contrib.sqla import ModelView
 from flask_mail import Mail
 from Login.config import Config
 from Login.commands import create_tables
+from Login.extensions import db, login_manager,bcrypt
 #mysql://sql12349216:G3bCkSkCQ9@sql12.freemysqlhosting.net/sql12349216
 
-db=SQLAlchemy()
+"""db=SQLAlchemy()
 bcrypt=Bcrypt()
-login_manager=LoginManager()
+login_manager=LoginManager()"""
 login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
 
