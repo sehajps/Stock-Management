@@ -27,7 +27,8 @@
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
               <a class="nav-item nav-link" href="{{url_for('main.home')}}">About</a>
-              <!--<a class="nav-item nav-link" href="{{url_for('users.register')}}">Register</a>-->
+              <!-- <a class="nav-item nav-link" href="{{url_for('users.register')}}">Register</a>-->
+              <!-- <a class="nav-item nav-link" href="{{url_for('users.register')}}">Register</a>-->
               {%if current_user.is_authenticated%}
               <a class="nav-item nav-link" href="{{url_for('users.index')}}">Index</a>
               {%endif%}
