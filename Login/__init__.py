@@ -8,6 +8,7 @@ from Login.config import Config
 from Login.commands import create_tables
 from Login.models import user
 from Login.users.routes import users
+from Login.extensions import db,mail,bcrypt,login_manager
 #mysql://sql12349216:G3bCkSkCQ9@sql12.freemysqlhosting.net/sql12349216
 """
 db=SQLAlchemy()
