@@ -1,6 +1,6 @@
 from flask import url_for
 from flask_mail import Message
-from Login import mail
+from Login.extensions import mail
 def send_reset_email(user2):
     token=user2.get_reset_token()
     msg=Message('Password Reset Request',sender='norepy_bs@demo.com',recipients=[user2.email])
