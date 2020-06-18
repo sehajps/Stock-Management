@@ -31,8 +31,8 @@ def index():
 
 @users.route('/register',methods=['GET','POST'])
 def register():
-    return 'Fuck Off'
-    """form=RegisterForm()
+    #return 'Fuck Off'
+    form=RegisterForm()
     if form.validate_on_submit():
         hp=bcrypt.generate_password_hash(form.password.data).decode('utf-8')
         temp=user(username=form.username.data,email=form.email.data,password=hp)
@@ -40,7 +40,7 @@ def register():
         db.session.commit()
         flash(f'User has been registered','success')
         return redirect(url_for('users.login'))
-    return render_template('register.html',form=form,title='Register')"""
+    return render_template('register.html',form=form,title='Register')
 
 @users.route('/login',methods=['GET','POST'])
 def login():
