@@ -7,6 +7,7 @@ from flask_admin.contrib.sqla import ModelView
 from flask_mail import Mail
 from Login.config import Config
 from Login.commands import create_tables
+from Login.models import user
 #mysql://sql12349216:G3bCkSkCQ9@sql12.freemysqlhosting.net/sql12349216
 
 db=SQLAlchemy()
