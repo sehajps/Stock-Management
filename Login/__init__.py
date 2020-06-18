@@ -4,19 +4,20 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
-from flask_mail import Mail
 from Login.config import Config
 from Login.commands import create_tables
 from Login.models import user
+from Login.users.routes import users
 #mysql://sql12349216:G3bCkSkCQ9@sql12.freemysqlhosting.net/sql12349216
 """
 db=SQLAlchemy()
 bcrypt=Bcrypt()
-login_manager=LoginManager()"""
+login_manager=LoginManager()
 login_manager.login_view = 'users.login'
 login_manager.login_message_category = 'info'
 
 mail=Mail()
+"""
 
 
 def create_app(config_class=Config):
@@ -26,6 +27,8 @@ def create_app(config_class=Config):
     db.init_app(app)
     bcrypt.init_app(app)
     login_manager.init_app(app)
+    login_manager.login_view = 'users.login'
+    login_manager.login_message_category = 'info'   
     mail.init_app(app)
 
     @login_manager.user_loader
