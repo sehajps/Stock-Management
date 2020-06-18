@@ -1,5 +1,5 @@
 from flask import render_template,url_for,flash,redirect,request,Blueprint
-from Login import db,bcrypt
+from Login.extensions import db,bcrypt
 from Login.models import user,inventory,outgoing
 from Login.users.form import (LoginForm,inputForm,searchCellForm,updateForm,searchsizeForm,sortedlistForm,
                         requestResetForm,restPasswordForm,searchRecentForm,searchLogForm,editLogForm,RegisterForm)
