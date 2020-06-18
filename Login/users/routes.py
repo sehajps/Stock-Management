@@ -66,8 +66,6 @@ def logout():
 
 @users.route("/reset_password",methods=['GET','POST'])
 def reset_request():
-    if current_user.is_authenticated:
-        return redirect(url_for('users.home'))
     form=requestResetForm()
     if form.validate_on_submit():
         user2=user.query.filter_by(username=form.username.data).first()
@@ -84,7 +82,7 @@ def reset_token(token):
         return redirect(url_for('users.reset_request'))
     form=restPasswordForm()
     if form.validate_on_submit():
-            hp=bcrypt.generate_password_hash(form.password.data)
+            hp=bcrypt.generate_password_hash(form.password.data).decode('utf-8')
             user2.password=hp
             db.session.commit()
             flash(f'You password has been updated','success')
