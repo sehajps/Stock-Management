@@ -138,7 +138,7 @@ def edit(id):
         temp.n_b=form.n_b.data
         temp.description=form.description.data.upper()
         temp.size=form.size.data.upper()
-        temp.time=datetime.now(pytz.timezone('Asia/Kolkata'))
+        temp.time=datetime.now()#pytz.timezone('Asia/Kolkata')
         if temp.quantity==0:
             db.session.delete(temp)
         db.session.commit()
@@ -172,7 +172,7 @@ def editlog(id):
         temp.n_b=form.n_b.data
         temp.description=form.description.data.upper()
         temp.size=form.size.data.upper()
-        temp.time=datetime.now(pytz.timezone('Asia/Kolkata'))
+        temp.time=datetime.now()#pytz.timezone('Asia/Kolkata')
         if temp.quantity==0:
             db.session.delete(temp)
         db.session.commit()
@@ -261,7 +261,7 @@ def sortedlist():
     if form.validate_on_submit():
         #entry=inventory.query.filter_by(place=form.place.data).all()
         entry=inventory.query.with_entities(inventory.n_b,inventory.size,func.sum(inventory.quantity).label('quan'),
-                    inventory.description).filter_by(place=form.place.data).group_by(inventory.size,inventory.description).all()
+                    inventory.description).filter_by(place=form.place.data).group_by(inventory.n_b,inventory.size,inventory.description).all()
         total = inventory.query.with_entities(func.sum(inventory.quantity).label('totals')).filter_by(place=form.place.data).first()
         return render_template('sortedlist.html',form=form,entry=entry,total=total)
 
