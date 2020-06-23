@@ -33,9 +33,9 @@ class updateForm(FlaskForm):
     recipient=StringField('Recipient',validators=[Regexp(r'^[\w.@+-]+$',message="Spaces are not allowed"),DataRequired()])
     submit=SubmitField('Update')
 class searchsizeForm(FlaskForm):
-    size=StringField('Size',validators=[Regexp(r'^[\w.@+-]+$',message="Spaces are not allowed")])
-    description=StringField('Description',validators=[Regexp(r'^[\w.@+-]+$',message="Spaces are not allowed")])
-    sender=StringField('Sender',validators=[Regexp(r'^[\w.@+-]+$',message="Spaces are not allowed")])
+    size=StringField('Size')
+    description=StringField('Description')
+    sender=StringField('Sender')
     submit=SubmitField('Search')
 
 class sortedlistForm(FlaskForm):
