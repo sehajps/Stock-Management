@@ -103,8 +103,6 @@ def searchcell():
 @users.route('/update/<int:id>',methods=['GET','POST'])
 @login_required
 def update(id):
-    if current_user.username!='admin':
-        return 'You are not Admin'
     form=updateForm()
     if form.validate_on_submit():
         temp=inventory.query.get(id)

@@ -63,7 +63,7 @@
                         <td>{{i.sender}}</td>
                         <td>{{i.time.strftime("%d-%m-%Y")}}</td>
                         <td>{{i.time.strftime("%I:%M %p")}}</td>
-                        <td><a href="/update/{{i.id}}">Update</a></td>
+                        <td><a href="/update/{{i.id}}">Sale</a></td>
                         {%if current_user.username=='admin'%}
                         <td><a href="/edit/{{i.id}}">Edit</a></td>
                         {%endif%}
