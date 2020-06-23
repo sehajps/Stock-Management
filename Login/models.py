@@ -35,7 +35,7 @@ class inventory(db.Model,UserMixin):
     quantity=db.Column(db.Integer, nullable=False)
     n_b=db.Column(db.String(10), nullable=False)
     size=db.Column(db.String(100), nullable=False)
-    time=db.Column(db.DateTime,default=datetime.now(pytz.timezone('Asia/Kolkata')))
+    time=db.Column(db.DateTime)
     description=db.Column(db.String(50),nullable=False)
     sender=db.Column(db.String(100),nullable=False)
 
@@ -48,7 +48,7 @@ class outgoing(db.Model,UserMixin):
     quantity=db.Column(db.Integer, nullable=False)
     n_b=db.Column(db.String(10), nullable=False)
     size=db.Column(db.String(100), nullable=False)
-    time=db.Column(db.DateTime,default=datetime.now(pytz.timezone('Asia/Kolkata')))
+    time=db.Column(db.DateTime,)
     description=db.Column(db.String(50),nullable=False)
     recipient=db.Column(db.String(100),nullable=False)
 

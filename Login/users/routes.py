@@ -21,7 +21,7 @@ def index():
     if form.validate_on_submit():
         data=inventory(place=form.place.data,size=form.size.data.upper().upper(),quantity=form.quantity.data,
                         sender=form.sender.data.upper(),description=form.description.data.upper(),n_b=form.n_b.data,
-                        cell_no=form.cell_no.data,time=datetime.now(pytz.timezone('Asia/Kolkata')))
+                        cell_no=form.cell_no.data,time=datetime.now())#pytz.timezone('Asia/Kolkata')
         db.session.add(data)
         db.session.commit()
         flash(f'Data Submitted','success')
@@ -113,7 +113,7 @@ def update(id):
             return render_template('update.html',title='Update',form=form)
         temp2=outgoing(cell_no=temp.cell_no,quantity=form.quantity.data,place=temp.place,n_b=temp.n_b,
                         size=temp.size,recipient=form.recipient.data.upper(),description=temp.description,
-                        time=datetime.now(pytz.timezone('Asia/Kolkata')))
+                        time=datetime.now())#pytz.timezone('Asia/Kolkata')
         temp.quantity=temp.quantity-form.quantity.data
         if temp.quantity==0:
             db.session.delete(temp)
