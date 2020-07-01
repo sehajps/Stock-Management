@@ -63,8 +63,6 @@ def my_date_check(FlaskForm, field):
 class searchLogForm(FlaskForm):
     start=DateField('Start Date',format='%Y-%m-%d')
     end=DateField('End Date',format='%Y-%m-%d')
-    size=StringField('Size')
-    sender=StringField('Sender')
     submit=SubmitField('Search')
 
 class searchRecentForm(FlaskForm):

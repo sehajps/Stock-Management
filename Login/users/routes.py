@@ -195,17 +195,20 @@ def viewlog():
     if current_user.username!='admin':
         return 'You are not Admin'
     form=searchLogForm()
+    form2=searchsizeForm()
     if form.validate_on_submit():
-        if form.start.data!="" and form.end.data!="":
-            entry=outgoing.query.filter(outgoing.time>=form.start.data).filter(outgoing.time<=form.end.data).order_by(desc(outgoing.time)).all()
+        entry=outgoing.query.filter(outgoing.time>=form.start.data).filter(outgoing.time<=form.end.data).order_by(desc(outgoing.time)).all()
+    return render_template('viewlog.html',form=form,form2=form2,entry=entry)
+    if form2.validate_on_submit():
+        if form.sender.data=="" and form.size.data!="":
+            entry=outgoing.query.filter(outgoing.size==form.size.data).order_by(desc(outgoing.time)).all()
+        elif form.sender.data!="" and form.size.data=="":
+            entry=outgoing.query.filter(outgoing.sender==form.sender.data).order_by(desc(outgoing.time)).all()
         else:
-            if form.sender.data=="" and form.size.data!="":
-                entry=outgoing.query.filter(outgoing.size==form.size.data).order_by(desc(outgoing.time)).all()
-            else:
-                entry=outgoing.query.filter(outgoing.sender==form.sender.data).order_by(desc(outgoing.time)).all()
-        return render_template('viewlog.html',form=form,entry=entry)
+            entry=outgoing.query.filter(outgoing.sender==form.sender.data).filter(outgoing.size==form.size.data).order_by(desc(outgoing.time)).all()
+        return render_template('viewlog.html',form=form,form2=form2,entry=entry)
     if current_user.username=='admin':
-        return render_template('viewlog.html',form=form)
+        return render_template('viewlog.html',form=form,form2=form2)
     else:
         return 'You are not admin'
 

@@ -35,36 +35,49 @@
                             {{ form.end(class="form-control form-control-lg") }}
                         {% endif %}
                     </div>
+                    
+                </div>
+            </fieldset>
+            <div class="form-group">
+                {{ form.submit(class="btn btn-outline-info") }}
+            </div>
+        </form>
+
+        <form method="POST" action="">
+            {{ form.hidden_tag() }}
+            <fieldset >
+                <legend class="border-bottom mb-20">Enter Sender , Size</legend>
+                <div class="form-row"> 
                     <div class="form-group">
-                        {{ form.size.label(class="form-control-label") }}
-                        {% if form.size.errors %}
-                            {{ form.size(class="form-control form-control-lg is-invalid") }}
+                        {{ form2.size.label(class="form-control-label") }}
+                        {% if form2.size.errors %}
+                            {{ form2.size(class="form-control form-control-lg is-invalid") }}
                             <div class="invalid-feedback">
-                                {% for error in form.size.errors %}
+                                {% for error in form2.size.errors %}
                                     <span>{{ error }}</span>
                                 {% endfor %}
                             </div>
                         {% else %}
-                            {{ form.size(class="form-control form-control-lg") }}
+                            {{ form2.size(class="form-control form-control-lg") }}
                         {% endif %}
                     </div>
                     <div class="form-group">
-                        {{ form.sender.label(class="form-control-label") }}
-                        {% if form.sender.errors %}
-                            {{ form.sender(class="form-control form-control-lg is-invalid") }}
+                        {{ form2.sender.label(class="form-control-label") }}
+                        {% if form2.sender.errors %}
+                            {{ form2.sender(class="form-control form-control-lg is-invalid") }}
                             <div class="invalid-feedback">
-                                {% for error in form.sender.errors %}
+                                {% for error in form2.sender.errors %}
                                     <span>{{ error }}</span>
                                 {% endfor %}
                             </div>
                         {% else %}
-                            {{ form.sender(class="form-control form-control-lg") }}
+                            {{ form2.sender(class="form-control form-control-lg") }}
                         {% endif %}
                     </div>
                 </div>
             </fieldset>
             <div class="form-group">
-                {{ form.submit(class="btn btn-outline-info") }}
+                {{ form2.submit(class="btn btn-outline-info") }}
             </div>
         </form>
         <legend class="border-bottom mb-4">Log</legend>
