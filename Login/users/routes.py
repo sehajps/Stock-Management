@@ -196,14 +196,14 @@ def viewlog():
         return 'You are not Admin'
     form=searchLogForm()
     form2=searchsizeForm()
-    if form.validate_on_submit():
+    if form.submit.data and form.validate():
         entry=outgoing.query.filter(outgoing.time>=form.start.data).filter(outgoing.time<=form.end.data).order_by(desc(outgoing.time)).all()
         return render_template('viewlog.html',form=form,form2=form2,entry=entry)
-    if form2.validate_on_submit():
+    if form2.submit.data and form2.validate():
         if form2.sender.data=="" and form2.size.data!="":
             entry=outgoing.query.filter(outgoing.size==form2.size.data).order_by(desc(outgoing.time)).all()
         elif form2.sender.data!="" and form2.size.data=="":
-            entry=outgoing.query.filter_by(outgoing.sender==form2.sender.data).order_by(desc(outgoing.time)).all()
+            entry=outgoing.query.filter(outgoing.sender==form2.sender.data).order_by(desc(outgoing.time)).all()
         else:
             entry=outgoing.query.filter(outgoing.sender==form2.sender.data).filter(outgoing.size==form2.size.data).order_by(desc(outgoing.time)).all()
         return render_template('viewlog.html',form=form,form2=form2,entry=entry)
