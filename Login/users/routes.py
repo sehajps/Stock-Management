@@ -2,7 +2,8 @@ from flask import render_template,url_for,flash,redirect,request,Blueprint
 from Login.extensions import db,bcrypt
 from Login.models import user,inventory,outgoing
 from Login.users.form import (LoginForm,inputForm,searchCellForm,updateForm,searchsizeForm,sortedlistForm,
-                        requestResetForm,restPasswordForm,searchRecentForm,searchLogForm,editLogForm,RegisterForm)
+                        requestResetForm,restPasswordForm,searchRecentForm,searchLogForm,editLogForm,
+                        RegisterForm,searchsizeForm2)
 from flask_login import login_user,current_user,logout_user,login_required
 from Login.users.utils import send_reset_email
 from datetime import datetime
