@@ -38,6 +38,11 @@ class searchsizeForm(FlaskForm):
     sender=StringField('Sender')
     submit=SubmitField('Search')
 
+class searchsizeForm2(FlaskForm):
+    size=StringField('Size')
+    sender=StringField('Sender')
+    submit2=SubmitField('Search')
+
 class sortedlistForm(FlaskForm):
     place=SelectField('Place',validators=[DataRequired()],choices=[('office','Office'),('godown','Godown')])
     submit=SubmitField('Search')

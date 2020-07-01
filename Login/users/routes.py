@@ -195,11 +195,11 @@ def viewlog():
     if current_user.username!='admin':
         return 'You are not Admin'
     form=searchLogForm()
-    form2=searchsizeForm()
+    form2=searchsizeForm2()
     if form.submit.data and form.validate():
         entry=outgoing.query.filter(outgoing.time>=form.start.data).filter(outgoing.time<=form.end.data).order_by(desc(outgoing.time)).all()
         return render_template('viewlog.html',form=form,form2=form2,entry=entry)
-    if form2.submit.data and form2.validate():
+    if form2.submit2.data and form2.validate():
         if form2.sender.data=="" and form2.size.data!="":
             entry=outgoing.query.filter(outgoing.size==form2.size.data).order_by(desc(outgoing.time)).all()
         elif form2.sender.data!="" and form2.size.data=="":
