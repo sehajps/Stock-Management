@@ -40,7 +40,7 @@ class searchsizeForm(FlaskForm):
 
 class searchsizeForm2(FlaskForm):
     size=StringField('Size')
-    sender=StringField('Sender')
+    recipient=StringField('Recipient')
     submit2=SubmitField('Search')
 
 class sortedlistForm(FlaskForm):

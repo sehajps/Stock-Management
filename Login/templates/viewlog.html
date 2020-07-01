@@ -62,16 +62,16 @@
                         {% endif %}
                     </div>
                     <div class="form-group">
-                        {{ form2.sender.label(class="form-control-label") }}
-                        {% if form2.sender.errors %}
-                            {{ form2.sender(class="form-control form-control-lg is-invalid") }}
+                        {{ form2.recipient.label(class="form-control-label") }}
+                        {% if form2.recipient.errors %}
+                            {{ form2.recipient(class="form-control form-control-lg is-invalid") }}
                             <div class="invalid-feedback">
-                                {% for error in form2.sender.errors %}
+                                {% for error in form2.recipient.errors %}
                                     <span>{{ error }}</span>
                                 {% endfor %}
                             </div>
                         {% else %}
-                            {{ form2.sender(class="form-control form-control-lg") }}
+                            {{ form2.recipient(class="form-control form-control-lg") }}
                         {% endif %}
                     </div>
                 </div>
