@@ -42,7 +42,7 @@
                             <div class="invalid-feedback">
                                 {% for error in form.size.errors %}
                                     <span>{{ error }}</span>
-                                {% sizefor %}
+                                {% endfor %}
                             </div>
                         {% else %}
                             {{ form.size(class="form-control form-control-lg") }}
