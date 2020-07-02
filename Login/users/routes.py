@@ -139,6 +139,7 @@ def edit(id):
         temp.size=form.size.data.upper()
         temp.time=datetime.now()#pytz.timezone('Asia/Kolkata')
         if temp.quantity==0:
+            flash(f'You have deleted the data','danger')
             db.session.delete(temp)
         db.session.commit()
         flash(f'Data has been edited successfully','success')
@@ -173,6 +174,7 @@ def editlog(id):
         temp.size=form.size.data.upper()
         temp.time=datetime.now()#pytz.timezone('Asia/Kolkata')
         if temp.quantity==0:
+            flash(f'You have deleted the data','danger')
             db.session.delete(temp)
         db.session.commit()
         flash(f'Log has been edited successfully','success')
