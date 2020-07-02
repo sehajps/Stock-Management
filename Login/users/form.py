@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField,PasswordField,SubmitField,BooleanField,IntegerField,SelectField,DateField
 from wtforms.fields.html5 import DateField
-from wtforms.validators import DataRequired, Email, NumberRange,ValidationError,EqualTo,Regexp
+from wtforms.validators import DataRequired, Email, NumberRange,ValidationError,EqualTo,Regexp,InputRequired
 from Login.models import user
 olimit=100
 class LoginForm(FlaskForm):
@@ -9,7 +9,6 @@ class LoginForm(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     remember=BooleanField('Remember Me')
     submit=SubmitField('Login')
-
 class RegisterForm(FlaskForm):
     username=StringField('Username',validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
@@ -80,7 +79,7 @@ class editLogForm(FlaskForm):
     cell_no=IntegerField('Cell Number',validators=[DataRequired(),NumberRange(min=0,max=olimit,message='Please enter number in limit')])
     n_b=SelectField('Product',validators=[DataRequired()],choices=[('nut','Nut'),('bolt','Bolt'),('washer','Washer')])
     size=StringField('Size',validators=[Regexp(r'^[\w.@+-/]+$',message="Spaces are not allowed"),DataRequired()])
-    quantity=IntegerField('Quantity',validators=[DataRequired(),NumberRange(min=0,message='Please enter number in limit')])
+    quantity=IntegerField('Quantity',validators=[InputRequired(),NumberRange(min=0,message='Please enter number in limit')])
     description=StringField('Description',validators=[Regexp(r'^[\w.@+-/]+$',message="Spaces are not allowed"),DataRequired()])
     recipient=StringField('Recipient',validators=[Regexp(r'^[\w.@+-/]+$',message="Spaces are not allowed"),DataRequired()])
     submit=SubmitField('Submit')
