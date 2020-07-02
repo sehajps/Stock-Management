@@ -19,7 +19,7 @@ class inputForm(FlaskForm):
     cell_no=IntegerField('Cell Number',validators=[DataRequired(),NumberRange(min=0,max=olimit,message='Please enter number in limit')])
     n_b=SelectField('Product',validators=[DataRequired()],choices=[('nut','Nut'),('bolt','Bolt'),('washer','Washer')])
     size=StringField('Size',validators=[Regexp(r'^[\w.@+-/]+$',message="Spaces are not allowed"),DataRequired()])
-    quantity=IntegerField('Quantity (in kg)',validators=[DataRequired(),NumberRange(min=0,message='Please enter number in limit')])
+    quantity=IntegerField('Quantity (in kg)',validators=[InputRequired(),NumberRange(min=0,message='Please enter number in limit')])
     description=StringField('Description',validators=[Regexp(r'^[\w.@+-/]+$',message="Spaces are not allowed"),DataRequired()])
     sender=StringField('Sender',validators=[Regexp(r'^[\w.@+-/]+$',message="Spaces are not allowed"),DataRequired()])
     submit=SubmitField('Submit')
