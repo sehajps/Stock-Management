@@ -20,10 +20,15 @@ users=Blueprint('users',__name__)
 def index():
     form=inputForm()
     if form.validate_on_submit():
-        data=inventory(place=form.place.data,size=form.size.data.upper().upper(),quantity=form.quantity.data,
+        temp=inventory.query.filter_by(n_b=form.n_b.data,description=form.description.data,cell_no=form.cell_no.data,size=form.size.data,sender=form.sender.data,place=form.place.data).first()
+        if temp:
+            temp.quantity=temp.quantity+form.quantity.data
+            temp.time=datetime.now()
+        else:
+            data=inventory(place=form.place.data,size=form.size.data.upper().upper(),quantity=form.quantity.data,
                         sender=form.sender.data.upper(),description=form.description.data.upper(),n_b=form.n_b.data,
                         cell_no=form.cell_no.data,time=datetime.now())#pytz.timezone('Asia/Kolkata')
-        db.session.add(data)
+            db.session.add(data)
         db.session.commit()
         flash(f'Data Submitted','success')
         return redirect(url_for('users.index'))
